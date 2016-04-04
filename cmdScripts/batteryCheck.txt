@@ -1,0 +1,27 @@
+
+@REM change the below numbers if needed(lowBettryPercentage , timeBetweenChecks)
+
+@REM from lowBettryPercentage and down the alert will pop up 
+@SET  lowBettryPercentage=3
+
+@REM frequency of checks in seconds 
+@SET  timeBetweenChecks=5
+
+
+
+@REM DO NOT TOUCH
+
+@SET  acPowerIsConnected=2
+@SET  showAlert=0
+@echo Checking battery percent every %timeBetweenChecks% seconds...
+@echo Alert will pop up if the battery is under %lowBettryPercentage% precent...
+:BatteryCheck
+@FOR /F "skip=1 tokens=1" %%G IN ('WMIC Path Win32_Battery Get BatteryStatus') DO @(
+@IF %%G  EQU %acPowerIsConnected% (SET showAlert=0 & GOTO SkipBatteryCheck))
+@IF 1 EQU %showAlert% GOTO SkipBatteryCheck
+@FOR /F "skip=1 tokens=1" %%G IN ('WMIC Path Win32_Battery Get EstimatedChargeRemaining') DO @(
+@IF %%G LSS %lowBettryPercentage% (SET showAlert=1 ) ELSE (GOTO SkipBatteryCheck))
+@IF 1 EQU %showAlert% msg %username% Low Battery. Connect the charger
+:SkipBatteryCheck
+@timeout %timeBetweenChecks% >NUL
+@GOTO BatteryCheck
