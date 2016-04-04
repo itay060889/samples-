@@ -1,0 +1,4 @@
+Code that exploits bufferOverFlow in a server and open '/bin/sh' that can be control by the c&c
+The OS is LINUX and assembly is x86
+In this case to run the c&c we need to open server that listen on port 1337
+(can be done by 'nc -l 1337' in the terminal)
