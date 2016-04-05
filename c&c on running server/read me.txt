@@ -1,4 +1,15 @@
-Code that exploits bufferOverFlow in a server and open '/bin/sh' that can be control by the c&c
+Code that exploits bufferOverFlow in a server to open '/bin/sh' that can be control by the c&c
 The OS is LINUX and assembly is x86
 In this case to run the c&c we need to open server that listen on port 1337
 (can be done by 'nc -l 1337' in the terminal)
+Tech details
+work on 14.04.1-Ubuntu
+need to complile the server whitout canary protection
+can be done by :gcc server.c -o server -fno-stack-protector
+need to disable OS randomize to run program
+can be done by : 
+to disable
+sudo sysctl -w kernel.randomize_va_space=0
+(to enable
+sudo sysctl -w kernel.randomize_va_space=2
+or restart the OS)
